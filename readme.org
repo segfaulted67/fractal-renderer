@@ -1,6 +1,9 @@
 #+TITLE: Fractal Renderer
 This is a simple C program that renders fractals using [[https://github.com/raysan5/raylib][raylib]] library.
 
+* Screenshot
+  [[./screenshot/mandelbrot.png][]]
+  [[./screenshot/mandelbar.png][]]
 * Requirements
   - C compiler(gcc, clang, etc)
   - raylib
