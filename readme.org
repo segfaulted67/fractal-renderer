@@ -1,0 +1,14 @@
+#+TITLE: Fractal Renderer
+This is a simple C program that renders fractals using [[https://github.com/raysan5/raylib][raylib]] library.
+
+* Requirements
+  - C compiler(gcc, clang, etc)
+  - raylib
+
+* Installation
+  #+begin_src sh
+  git clone https://github.com/segfaulted67/fractal-renderer
+  cd fractal-renderer
+  make
+  ./fractal
+  #+end_src
