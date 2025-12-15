@@ -24,6 +24,11 @@ float complex mandelbar(float complex z, float complex c)
     return conjf(z) * conjf(z) + c;
 }
 
+float complex julia(float complex z, float complex c)
+{
+    return z * z + c;
+}
+
 float is_in_fractal(float complex (* zn)(float complex, float complex), float complex c, int max_iter, float escape_rad)
 {
   float complex z = 0.0f + I * 0.0f;
@@ -35,10 +40,24 @@ float is_in_fractal(float complex (* zn)(float complex, float complex), float co
   return 0;
 }
 
+int is_in_julia(float complex (* zn)(float complex, float complex), float complex z0, float complex c, int max_iter, float escape_rad)
+{
+    float complex z = z0;
+    for (int i = 0; i < max_iter; i++) {
+        z = zn(z, c);
+        if (crealf(z) * crealf(z) + cimagf(z) * cimagf(z) > escape_rad*escape_rad)
+            return i;
+    }
+    return 0;
+}
+
 int main()
 {
   int max_iter = 250;
   float escape_rad = 2.0f;
+  float complex julia_c = -0.8 + 0.156 * I;
+  (void) julia_c;
+
   InitWindow(WIDTH, HEIGHT, "mandelbrot set");
   SetTargetFPS(60);
 
@@ -46,14 +65,22 @@ int main()
     BeginDrawing();
     ClearBackground((Color) { 0.0f, 0.0f, 0.0f, 1.0f });
     float x = 0.0f, y = 0.0f;
+
+    float complex z0 = x + I * y;
+
+    float complex c = x + I * y;
+    float complex julia_c = -0.4f + I * 0.6f;
+
     for (int px = 0; px < WIDTH; px++) {
       for (int py = 0; py < HEIGHT; py++) {
         x = -2.5 + 4.0 * px / WIDTH;
         y = -2.0 + 4.0 * py / HEIGHT;
 
-        float complex c = x + I * y;
-        int iter = is_in_fractal(mandelbrot, c, max_iter, escape_rad);
+        c = x + I * y;
 
+        // int iter = is_in_fractal(mandelbrot, c, max_iter, escape_rad);
+        z0 = x + I * y;
+        int iter = is_in_julia(julia, z0, julia_c, max_iter, escape_rad);
 
         Color color;
         if (iter == 0)
